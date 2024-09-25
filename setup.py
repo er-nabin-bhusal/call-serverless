@@ -2,7 +2,7 @@ from setuptools import find_packages, setup
 
 setup(
     name="call-serverless",
-    version="0.1.1",
+    version="0.1.2",
     description="Remote call AWS Lambda functions directly that have API Gateway integration",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",

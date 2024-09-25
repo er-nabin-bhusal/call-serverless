@@ -1,8 +1,9 @@
 import json
-from formatter import format_request
 from typing import Union
 
 import boto3
+
+from .formatter import format_request
 
 _client = None
 

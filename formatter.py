@@ -1,13 +1,20 @@
-from typing import Union
 import json
+from typing import Union
 
 
 def base_template():
-    with open('./template.json', 'r') as file:
+    with open("./template.json", "r") as file:
         request = json.load(file)
     return request
 
-def format_request(stage: str, path: str, method: str, body: Union[dict, None]=None, headers: Union[dict, None]=None):
+
+def format_request(
+    stage: str,
+    path: str,
+    method: str,
+    body: Union[dict, None] = None,
+    headers: Union[dict, None] = None,
+):
     """
     @param headers: dict
     @param path: str - the path of the resource and it starts with a forward slash

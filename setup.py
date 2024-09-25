@@ -2,11 +2,11 @@ from setuptools import find_packages, setup
 
 setup(
     name="call-serverless",
-    version="0.1.0",
+    version="0.1.1",
     description="Remote call AWS Lambda functions directly that have API Gateway integration",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
-    url="https://github.com/er-nabin-bhusal/pyrlc",
+    url="https://github.com/er-nabin-bhusal/call-serverless",
     author="Nabin Bhusal",
     author_email="nabinbhusal80@gmail.com",
     license="MIT",

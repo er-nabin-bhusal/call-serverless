@@ -23,11 +23,11 @@ def _get_lambda_client(region: str):
 def call_lambda(
     lambda_arn: str,
     path: str,
-    method: str,
-    stage: str,
-    region: str,
-    body: Union[dict, None] = None,
+    method: str = "GET",
+    stage: str = "prod",
+    region: str = "us-east-1",
     headers: Union[dict, None] = None,
+    body: Union[dict, None] = None,
 ) -> CLResponse:
     """
     Invokes an AWS Lambda function by sending an HTTP-like request with the specified method, path, and headers.
@@ -59,7 +59,7 @@ def call_lambda(
                 headers={"Authorization": "Bearer token123"}
             )
         >>> print(response)
-        {'statusCode': 200, 'message': 'User created successfully'}
+        <CLResponse 200>
 
     This function formats a request payload and uses the AWS SDK to invoke a Lambda function via its ARN.
     It simulates an API Gateway request to the Lambda, including HTTP methods and headers,

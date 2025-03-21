@@ -2,7 +2,7 @@ from setuptools import find_packages, setup
 
 setup(
     name="call-serverless",
-    version="0.1.3",
+    version="0.1.5",
     description="Remote call AWS Lambda functions directly that have API Gateway integration",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
@@ -19,5 +19,6 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    python_requires=">=3.6",
+    package_data={"call_serverless": ["template.json"]},
+    python_requires=">=3.8",
 )

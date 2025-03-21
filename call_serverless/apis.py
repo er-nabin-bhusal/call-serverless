@@ -2,18 +2,22 @@ import json
 from typing import Union
 
 import boto3
+import botocore
+import botocore.exceptions
 
+from .exceptions import LambdaAccessError
 from .formatter import format_request
+from .response import CLResponse
 
-_client = None
+_clients = {}
 
 
 def _get_lambda_client(region: str):
     global _client
 
-    if not _client:
-        _client = boto3.client("lambda", region_name=region)
-    return _client
+    if region not in _clients:
+        _clients[region] = boto3.client("lambda", region_name=region)
+    return _clients[region]
 
 
 def call_lambda(
@@ -24,7 +28,7 @@ def call_lambda(
     region: str,
     body: Union[dict, None] = None,
     headers: Union[dict, None] = None,
-):
+) -> CLResponse:
     """
     Invokes an AWS Lambda function by sending an HTTP-like request with the specified method, path, and headers.
 
@@ -66,13 +70,14 @@ def call_lambda(
 
     client = _get_lambda_client(region)
 
-    response = client.invoke(
-        FunctionName=lambda_arn,
-        InvocationType="RequestResponse",
-        Payload=json.dumps(payload),
-    )
+    try:
+        response = client.invoke(
+            FunctionName=lambda_arn,
+            InvocationType="RequestResponse",
+            Payload=json.dumps(payload),
+        )
+    except botocore.exceptions.ClientError as exc:
+        raise LambdaAccessError(f"Issue with the lambda execution: {str(exc)}") from exc
 
     response_str = response["Payload"].read().decode("utf-8")
-    response_json = json.loads(response_str)
-
-    return response_json["body"]
+    return CLResponse.from_response(response_str)

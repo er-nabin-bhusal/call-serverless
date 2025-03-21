@@ -3,6 +3,7 @@
     "path": "",
     "httpMethod": "GET",
     "headers": null,
+    "queryStringParameters": null,
     "requestContext": {
         "resourcePath": "",
         "httpMethod": "GET",

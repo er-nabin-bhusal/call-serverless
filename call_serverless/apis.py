@@ -67,7 +67,6 @@ def call_lambda(
     """
 
     payload = format_request(stage, path, method, body, headers)
-
     client = _get_lambda_client(region)
 
     try:

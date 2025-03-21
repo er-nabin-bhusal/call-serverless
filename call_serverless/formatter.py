@@ -1,6 +1,7 @@
 import json
 import os
 from typing import Union
+from urllib.parse import parse_qs, urlparse
 
 
 def base_template():
@@ -23,10 +24,17 @@ def format_request(
     if not path.startswith("/"):
         path = f"/{path}"
 
+    parsed = urlparse(path)
+    params = (
+        {k: v[0] for k, v in parse_qs(parsed.query).items()} if parsed.query else None
+    )
+    path = parsed.path
+
     template = base_template()
     template["resource"] = path
     template["path"] = path
     template["headers"] = headers
+    template["queryStringParameters"] = params
     template["requestContext"]["resourcePath"] = path
     template["requestContext"]["path"] = f"/{stage}{path}"
     template["requestContext"]["stage"] = stage

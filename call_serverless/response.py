@@ -1,7 +1,7 @@
 import json
 from typing import Union
 
-from .exceptions import ErrorResponse
+from .exceptions import ErrorResponse, InvalidResponseFormat
 
 
 class CLResponse:
@@ -20,8 +20,8 @@ class CLResponse:
         try:
             response_json = json.loads(response)
             instance = cls(response_json["statusCode"], response_json["body"])
-        except json.JSONDecodeError:
-            raise
+        except (json.JSONDecodeError, KeyError):
+            raise InvalidResponseFormat(response)
         return instance
 
     def raise_for_status(self):

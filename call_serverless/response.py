@@ -19,9 +19,12 @@ class CLResponse:
     def from_response(cls, response: str):
         try:
             response_json = json.loads(response)
-            instance = cls(response_json["statusCode"], response_json["body"])
+            status_code = response_json["statusCode"]
+
+            instance = cls(status_code, response_json["body"])
         except (json.JSONDecodeError, KeyError):
             raise InvalidResponseFormat(response)
+
         return instance
 
     def raise_for_status(self):

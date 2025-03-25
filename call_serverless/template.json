@@ -4,6 +4,8 @@
     "httpMethod": "GET",
     "headers": null,
     "queryStringParameters": null,
+    "multiValueQueryStringParameters": null,
+    "pathParameters": null,
     "requestContext": {
         "resourcePath": "",
         "httpMethod": "GET",

@@ -1,21 +1,38 @@
 import json
 import os
 from typing import Union
-from urllib.parse import parse_qs, urlparse
 
 
 def base_template():
-    with open(os.path.join(os.path.dirname(__file__), "template.json"), "r") as file:
+    with open(
+        os.path.join(
+            os.path.dirname(__file__),
+            ("template.json"),
+        ),
+        "r",
+    ) as file:
         request = json.load(file)
     return request
 
 
+def get_full_path(
+    path: str,
+    path_params: Union[dict, None] = None,
+) -> str:
+
+    if path_params:
+        path = path.format(**path_params)
+    return path
+
+
 def format_request(
-    stage: str,
     path: str,
     method: str,
-    body: Union[dict, None] = None,
+    stage: str,
     headers: Union[dict, None] = None,
+    path_params: Union[dict, None] = None,
+    query_params: Union[dict, None] = None,
+    body: Union[dict, None] = None,
 ):
     """
     @param headers: dict
@@ -24,21 +41,22 @@ def format_request(
     if not path.startswith("/"):
         path = f"/{path}"
 
-    parsed = urlparse(path)
-    params = (
-        {k: v[0] for k, v in parse_qs(parsed.query).items()} if parsed.query else None
-    )
-    path = parsed.path
+    request_format = base_template()
+    request_format["resource"] = path
+    request_format["path"] = get_full_path(path, path_params)
+    request_format["headers"] = headers
+    request_format["body"] = body
+    request_format["httpMethod"] = method
+    request_format["queryStringParameters"] = query_params
+    if query_params:
+        request_format["multiValueQueryStringParameters"] = {
+            k: [v] for k, v in query_params.items()
+        }
+    request_format["pathParameters"] = path_params
 
-    template = base_template()
-    template["resource"] = path
-    template["path"] = path
-    template["headers"] = headers
-    template["queryStringParameters"] = params
-    template["requestContext"]["resourcePath"] = path
-    template["requestContext"]["path"] = f"/{stage}{path}"
-    template["requestContext"]["stage"] = stage
-    template["body"] = body
-    template["httpMethod"] = method
-    template["requestContext"]["httpMethod"] = method
-    return template
+    request_format["requestContext"]["path"] = f"/{stage}{path}"
+    request_format["requestContext"]["resourcePath"] = path
+    request_format["requestContext"]["stage"] = stage
+    request_format["stageVariables"] = None
+
+    return request_format

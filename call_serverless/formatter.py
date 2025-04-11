@@ -1,18 +1,6 @@
-import json
-import os
 from typing import Union
 
-
-def base_template():
-    with open(
-        os.path.join(
-            os.path.dirname(__file__),
-            ("template.json"),
-        ),
-        "r",
-    ) as file:
-        request = json.load(file)
-    return request
+from .template import base_template
 
 
 def get_full_path(

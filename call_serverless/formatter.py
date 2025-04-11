@@ -20,7 +20,7 @@ def format_request(
     headers: Union[dict, None] = None,
     path_params: Union[dict, None] = None,
     query_params: Union[dict, None] = None,
-    body: Union[dict, None] = None,
+    body: Union[dict, str, None] = None,
 ):
     """
     @param headers: dict

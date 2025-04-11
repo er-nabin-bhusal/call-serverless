@@ -29,7 +29,7 @@ def call_lambda(
     headers: Union[dict, None] = None,
     path_params: Union[dict, None] = None,
     query_params: Union[dict, None] = None,
-    body: Union[dict, None] = None,
+    body: Union[dict, str, None] = None,
 ) -> CLResponse:
     """
     Invokes an AWS Lambda function by sending an HTTP-like request with the specified method, path,

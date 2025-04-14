@@ -25,7 +25,6 @@ def call_lambda(
     path: str,
     method: str = "GET",
     stage: str = "prod",
-    region: str = "us-east-1",
     headers: Union[dict, None] = None,
     path_params: Union[dict, None] = None,
     query_params: Union[dict, None] = None,
@@ -42,14 +41,13 @@ def call_lambda(
         method (str): The HTTP method to use for the request (e.g., 'GET', 'POST', 'PUT', 'DELETE').
             Defaults to 'GET'.
         stage (str): The deployment stage of the API (e.g., 'dev', 'prod'). Defaults to 'prod'.
-        region (str): The AWS region where the Lambda function is hosted. Defaults to 'us-east-1'.
         headers (Union[dict, None], optional): Additional headers to send in the request.
             Defaults to None.
         path_params (Union[dict, None], optional): Path parameters to send in the request.
             Defaults to None.
         query_params (Union[dict, None], optional): Query parameters to send in the request.
             Defaults to None.
-        body (Union[dict, None], optional): The request body to send in the Lambda invocation.
+        body (Union[dict, None], str, optional): The request body to send in the Lambda invocation.
             Defaults to None.
 
     Returns:
@@ -86,6 +84,11 @@ def call_lambda(
         query_params=query_params,
         body=body,
     )
+    try:
+        region = lambda_arn.split(":")[3]
+    except IndexError:
+        raise ValueError(f"Invalid lambda ARN: {lambda_arn}")
+
     client = _get_lambda_client(region)
     try:
         response = client.invoke(

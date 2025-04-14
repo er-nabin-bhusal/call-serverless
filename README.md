@@ -30,7 +30,6 @@ response = call_lambda(
     path="/users",
     method="POST",
     stage="prod",
-    region="us-west-2",
     body={"username": "new_user"},
     headers={"Authorization": "Bearer token123"}
 )

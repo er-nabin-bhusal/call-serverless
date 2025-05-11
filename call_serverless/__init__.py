@@ -1,1 +1,1 @@
-from .apis import call_lambda
+from .apis import call_lambda, call_lambda_async

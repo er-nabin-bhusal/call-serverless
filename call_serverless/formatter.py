@@ -45,6 +45,7 @@ def format_request(
     request_format["requestContext"]["path"] = f"/{stage}{path}"
     request_format["requestContext"]["resourcePath"] = path
     request_format["requestContext"]["stage"] = stage
+    request_format["requestContext"]["httpMethod"] = method
     request_format["stageVariables"] = None
 
     return request_format

@@ -25,3 +25,6 @@ python3 test_local_post_order_async.py
 
 echo -e "\nRunning test_local_post_order.py..."
 python3 test_local_post_order.py 
+
+echo -e "/Running test_local_project_async.py"
+python3 test_local_project_async.py

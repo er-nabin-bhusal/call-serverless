@@ -192,6 +192,5 @@ async def call_lambda_async(
         )
     except botocore.exceptions.ClientError as exc:
         raise LambdaAccessError(f"Issue with the lambda execution: {str(exc)}") from exc
-
     response_str = (await response["Payload"].read()).decode("utf-8")
     return CLResponse.from_response(response_str)
